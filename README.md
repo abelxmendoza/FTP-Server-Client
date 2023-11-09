@@ -16,7 +16,11 @@ This project is a collaborative effort by a group of students, ⚔️Socket Slay
 - [Member 2 Name](https://github.com/member2username)
 - [Member 3 Name](https://github.com/member3username)
 - [Member 4 Name](https://github.com/member4username)
-- [Member 5 Name](https://github.com/member5username)
+- [Member 5 Name
+  ](https://github.com/member5username)
+
+
+![1699518271433](image/README/1699518271433.png)
 
 ## Table of Contents
 
