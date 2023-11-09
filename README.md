@@ -6,20 +6,17 @@ This is an FTP (File Transfer Protocol) server and client project that aims to p
 
 **Note**: This README is a work in progress, and the project code is not yet finalized. It will be updated as the project evolves.
 
-
 ## Project Information
 
-This project is a collaborative effort by a group of students enrolled in the Computer Communications (CPSC471-04) course at California State University Fullerton, taught by Professor Mutalip Kurban.
+This project is a collaborative effort by a group of students, ⚔️Socket Slayers⚔️, enrolled in the Computer Communications (CPSC471-04) course at California State University Fullerton, taught by Professor Mutalip Kurban.
 
-**Group Members:**
+⚔️SOCKET SLAYERS⚔️ Group Members:
 
 - [Abel Mendoza](https://github.com/abelxmendoza)
 - [Member 2 Name](https://github.com/member2username)
 - [Member 3 Name](https://github.com/member3username)
 - [Member 4 Name](https://github.com/member4username)
 - [Member 5 Name](https://github.com/member5username)
-
-
 
 ## Table of Contents
 
@@ -58,10 +55,6 @@ To get started with this project, follow these steps:
    ```shell
    git clone https://github.com/yourusername/ftp-server-client.git
    ```
-
-
-
-
 
 ## Project Structure
 
