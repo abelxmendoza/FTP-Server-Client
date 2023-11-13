@@ -1,10 +1,12 @@
 import socket
 import os
 
+
 # Function to list files in the server directory
 def list_files():
-    files = os.listdir('.')
+    files = os.listdir(".")
     return "\n".join(files)
+
 
 # Function to handle client requests
 def handle_client(client_socket):
@@ -37,15 +39,14 @@ def handle_client(client_socket):
 
     client_socket.close()
 
+
 # Create a socket and start listening for connections
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind(('127.0.0.1', 21))
+server.bind(("127.0.0.1", 1200))
 server.listen(5)
-print("FTP server listening on port 21")
+print("FTP server listening on port 1200")
 
 while True:
     client_socket, addr = server.accept()
     print(f"Accepted connection from {addr}")
     handle_client(client_socket)
-
-

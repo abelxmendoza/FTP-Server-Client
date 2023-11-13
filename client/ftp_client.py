@@ -1,8 +1,9 @@
 import socket
 
+
 def main():
-    server_host = '127.0.0.1'  # Update with your server's IP address
-    server_port = 21  # Update with your server's port number
+    server_host = "127.0.0.1"  # Update with your server's IP address
+    server_port = 1200  # Update with your server's port number
 
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client.connect((server_host, server_port))
@@ -32,6 +33,6 @@ def main():
 
     client.close()
 
-if __name__ == '__main__':
-    main()
 
+if __name__ == "__main__":
+    main()
