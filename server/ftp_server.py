@@ -10,14 +10,13 @@ def list_files():
 
 # Function to handle client requests
 def handle_client(client_socket):
-    welcome_message = "Welcome to the FTP server. Available commands: ls, get <filename>, put <filename>"
+    welcome_message = "Welcome to the FTP server. Available commands: ls, get <filename>, put <filename>, quit"
     client_socket.send(welcome_message.encode())
 
     while True:
         request = client_socket.recv(1024).decode()
-        if not request:
+        if "quit" in request:
             break
-
         if request == "ls":
             file_list = list_files()
             client_socket.send(file_list.encode())
