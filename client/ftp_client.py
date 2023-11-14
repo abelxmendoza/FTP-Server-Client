@@ -1,4 +1,6 @@
 import socket
+import sys
+
 
 def executeCommands(client):
     command = input("Enter a command: ")
@@ -24,13 +26,17 @@ def executeCommands(client):
 
 
 def main():
-    server_host = "127.0.0.1"  # Update with your server's IP address
-    server_port = 1200  # Update with your server's port number
+    if len(sys.argv) < 3:
+        print("ERROR (FORMAT): ftp_client.py <server ip> <server port>")
+        exit(1)
+
+    server_host = sys.argv[1]  # Update with your server's IP address
+    server_port = sys.argv[2]  # Update with your server's port number
     run = True
 
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-#Client tries to connect to server.
+    # Client tries to connect to server.
     try:
         client.connect((server_host, server_port))
     except InterruptedError:
@@ -43,6 +49,7 @@ def main():
         run = executeCommands(client)
 
     client.close()
+
 
 """
         command = input("Enter a command: ")
