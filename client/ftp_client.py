@@ -31,7 +31,7 @@ def main():
         exit(1)
 
     server_host = sys.argv[1]  # Update with your server's IP address
-    server_port = sys.argv[2]  # Update with your server's port number
+    server_port = int(sys.argv[2])  # Update with your server's port number
     run = True
 
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
