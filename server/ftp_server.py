@@ -1,5 +1,6 @@
 import socket
 import os
+import sys
 
 
 # Function to list files in the server directory
@@ -39,13 +40,24 @@ def handle_client(client_socket):
     client_socket.close()
 
 
-# Create a socket and start listening for connections
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind(("127.0.0.1", 1200))
-server.listen(5)
-print("FTP server listening on port 1200")
+def main():
+    if len(sys.argv) < 2:
+        print("ERROR (FORMAT): ftp_server.py <server port>")
+        exit(1)
 
-while True:
-    client_socket, addr = server.accept()
-    print(f"Accepted connection from {addr}")
-    handle_client(client_socket)
+    server_port = sys.argv[1]
+
+    # Create a socket and start listening for connections
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server.bind(("127.0.0.1", server_port))
+    server.listen(5)
+    print(f"FTP server listening on port {server_port}")
+
+    while True:
+        client_socket, addr = server.accept()
+        print(f"Accepted connection from {addr}")
+        handle_client(client_socket)
+
+
+if __name__ == "__main__":
+    main()
