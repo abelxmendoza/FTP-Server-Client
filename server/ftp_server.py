@@ -45,8 +45,7 @@ def main():
         print("ERROR (FORMAT): ftp_server.py <server port>")
         exit(1)
 
-    server_port = sys.argv[1]
-
+    server_port = int(sys.argv[1])
     # Create a socket and start listening for connections
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind(("127.0.0.1", server_port))
