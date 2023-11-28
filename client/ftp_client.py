@@ -11,8 +11,15 @@ def executeCommands(client):
     elif command.startswith("get "): # get data from server
         filename = command[4:]
         data = client.recv(1024)
-        with open(filename, "wb") as file:
-            file.write(data)
+
+        # If data file not found, send error message
+        if data.decode() == "File not found":
+            print(data.decode())
+
+        else:
+            with open(filename, "wb") as file:
+                file.write(data)
+
     elif command.startswith("put "): # put data from client to server
         filename = command[4:]
         with open(filename, "rb") as file:

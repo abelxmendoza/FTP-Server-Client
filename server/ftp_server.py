@@ -26,25 +26,20 @@ def handle_client(client_socket):
             client_socket.send(file_list.encode())
         elif request.startswith("get "):
             filename = request[4:]
-
-            # TODO: New error: If enter a file that doesn't exist in the server folder, 
-            # the code some how create that new file then send that to the client
-            # when the server should have send an error message to the client
             try:
                 with open(filename, "rb") as file:
                     client_socket.send(file.read())
             except FileNotFoundError:
-                client_socket.send("File not found".encode())
-            #####################################################
+                client_socket.send("FAILURE: File not found".encode())
 
         elif request.startswith("put "):
             filename = request[4:]
             data = client_socket.recv(1024)
             with open(filename, "wb") as file:
                 file.write(data)
-            client_socket.send("File uploaded successfully".encode())
+            client_socket.send("SUCCESS: File uploaded successfully".encode())
         else:
-            client_socket.send("Invalid command".encode())
+            client_socket.send("FAILURE: Invalid command".encode())
 
     client_socket.close()
 
@@ -59,11 +54,11 @@ def main():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind(("127.0.0.1", server_port))
     server.listen(5)
-    print(f"FTP server listening on port {server_port}")
+    print(f"SUCCESS: FTP server listening on port {server_port}")
 
     while True:
         client_socket, addr = server.accept()
-        print(f"Accepted connection from {addr}")
+        print(f"SUCCESS: Accepted connection from {addr}")
         handle_client(client_socket)
 
 
