@@ -15,7 +15,10 @@ def handle_client(client_socket):
     client_socket.send(welcome_message.encode())
 
     while True:
+        
+        #server recovers client's command
         request = client_socket.recv(1024).decode()
+
         if "quit" in request:
             break
         if request == "ls":
@@ -41,7 +44,7 @@ def handle_client(client_socket):
 
 
 def main():
-    if len(sys.argv) < 2:
+    if len(sys.argv) < 2: # Use port number 1200
         print("ERROR (FORMAT): ftp_server.py <server port>")
         exit(1)
 
