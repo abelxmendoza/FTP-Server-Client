@@ -15,8 +15,7 @@ def handle_client(client_socket):
     client_socket.send(welcome_message.encode())
 
     while True:
-
-        #server recovers client's command
+        # server recovers client's command
         request = client_socket.recv(1024).decode()
 
         if "quit" in request:
@@ -34,18 +33,21 @@ def handle_client(client_socket):
 
         elif request.startswith("put "):
             filename = request[4:]
-            data = client_socket.recv(1024)
-            with open(filename, "wb") as file:
-                file.write(data)
-            client_socket.send("SUCCESS: File uploaded successfully".encode())
-        else:
-            client_socket.send("FAILURE: Invalid command".encode())
+            confirmation = client_socket.recv(1024).decode()
+
+            if confirmation == "SUCCESS":
+                data = client_socket.recv(1024)
+                with open(filename, "wb") as file:
+                    file.write(data)
+                client_socket.send("SUCCESS: File uploaded successfully".encode())
+            else:
+                client_socket.send("FAILURE: File not found".encode())
 
     client_socket.close()
 
 
 def main():
-    if len(sys.argv) < 2: # Use port number 1200
+    if len(sys.argv) < 2:  # Use port number 1200
         print("ERROR (FORMAT): ftp_server.py <server port>")
         exit(1)
 
