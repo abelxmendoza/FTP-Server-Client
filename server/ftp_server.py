@@ -15,7 +15,7 @@ def handle_client(client_socket):
     client_socket.send(welcome_message.encode())
 
     while True:
-        
+
         #server recovers client's command
         request = client_socket.recv(1024).decode()
 
@@ -26,11 +26,17 @@ def handle_client(client_socket):
             client_socket.send(file_list.encode())
         elif request.startswith("get "):
             filename = request[4:]
+
+            # TODO: New error: If enter a file that doesn't exist in the server folder, 
+            # the code some how create that new file then send that to the client
+            # when the server should have send an error message to the client
             try:
                 with open(filename, "rb") as file:
                     client_socket.send(file.read())
             except FileNotFoundError:
                 client_socket.send("File not found".encode())
+            #####################################################
+
         elif request.startswith("put "):
             filename = request[4:]
             data = client_socket.recv(1024)
