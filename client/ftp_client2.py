@@ -1,85 +1,88 @@
 import socket
+import sys
+import os
 
-def connect_to_server(host, port):
-    try:
-        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client_socket.connect((host, port))
-        return client_socket
-    except socket.error as e:
-        print(f"Error connecting to the server: {e}")
-        return None
+def executeCommands(client, data_channel):
+    command = input("ftp> ")
+    client.send(command.encode())
 
-def receive_data(socket):
-    try:
-        return socket.recv(1024).decode()
-    except socket.error as e:
-        print(f"Error receiving data: {e}")
-        return None
+    if command == "quit":
+        return False
+    elif command.startswith("get "):
+        filename = command[4:]
+        receive_file(client, filename, data_channel)
+    elif command.startswith("put "):
+        filename = command[4:]
+        send_file(client, filename, data_channel)
+    elif command == "ls":
+        receive_ls(client)
 
-def send_data(socket, data):
-    try:
-        socket.send(data.encode())
-    except socket.error as e:
-        print(f"Error sending data: {e}")
+    return True
 
-def receive_file(socket, filename):
-    try:
+def receive_file(client, filename, data_channel):
+    response = client.recv(1024).decode()
+    if response == "File not found":
+        print(response)
+    else:
         with open(filename, "wb") as file:
             while True:
-                data = socket.recv(1024)
+                data = data_channel.recv(1024)
                 if not data:
                     break
                 file.write(data)
-    except IOError as e:
-        print(f"Error writing file: {e}")
-    except socket.error as e:
-        print(f"Error receiving file data: {e}")
+            print(f"SUCCESS: File '{filename}' received")
 
-def send_file(socket, filename):
-    try:
+def send_file(client, filename, data_channel):
+    if not os.path.exists(filename):
+        print(f"FAILURE: File '{filename}' not found")
+        client.send(b"FAILURE")
+    else:
+        client.send(b"SUCCESS")
         with open(filename, "rb") as file:
-            data = file.read(1024)
-            while data:
-                socket.send(data)
+            while True:
                 data = file.read(1024)
-    except IOError as e:
-        print(f"Error reading file: {e}")
-    except socket.error as e:
-        print(f"Error sending file data: {e}")
+                if not data:
+                    break
+                data_channel.send(data)
+        print(f"SUCCESS: File '{filename}' sent")
+
+def receive_ls(client):
+    file_list = client.recv(1024).decode()
+    print("Server Files:\n", file_list)
 
 def main():
-    server_host = '127.0.0.1'
-    server_port = 21
+    if len(sys.argv) < 3:
+        print("ERROR (FORMAT): ftp_client.py <server ip> <server port>")
+        exit(1)
 
-    client = connect_to_server(server_host, server_port)
+    server_host = sys.argv[1]
+    server_port = int(sys.argv[2])
 
-    if client is None:
-        print("Unable to establish a connection. Exiting.")
-        return
+    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    data_channel = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    while True:
-        response = receive_data(client)
-        if response is None:
-            break
-        print(response)
+    try:
+        client.connect((server_host, server_port))
+        data_channel.bind(("127.0.0.1", 0))  # Bind to an available port
+        data_channel.listen(1)
+        client.send(str(data_channel.getsockname()[1]).encode())  # Send the data channel port to the server
+        data_connection, _ = data_channel.accept()  # Accept the connection on the data channel
+    except Exception as e:
+        print(f"ERROR: {e}")
+        client.close()
+        data_channel.close()
+        exit(1)
 
-        command = input("Enter a command: ")
-        send_data(client, command)
+    response = client.recv(1024).decode()
+    print(response)
 
-        if command == "quit":
-            break
-        elif command.startswith("get "):
-            filename = command[4:]
-            receive_file(client, filename)
-        elif command.startswith("put "):
-            filename = command[4:]
-            send_file(client, filename)
-        elif command == "ls":
-            file_list = receive_data(client)
-            if file_list is not None:
-                print(file_list)
+    run = True
+    while run:
+        run = executeCommands(client, data_connection)
 
     client.close()
+    data_channel.close()
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
+
