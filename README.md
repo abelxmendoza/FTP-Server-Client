@@ -13,11 +13,11 @@ This project is a collaborative effort by a group of students enrolled in the Co
 
 **Group Members:**
 
-- [Abel Mendoza](https://github.com/abelxmendoza)
-- [Member 2 Name](https://github.com/member2username)
-- [Member 3 Name](https://github.com/member3username)
-- [Member 4 Name](https://github.com/member4username)
-- [Member 5 Name](https://github.com/member5username)
+- [Abel Mendoza](abel_mendoza10@csu.fullerton.edu):abel_mendoza10@csu.fullerton.edu 
+- [Daniel Quezada](daquezada19@csu.fullerton.edu):daquezada19@csu.fullerton.edu
+- [Cindy Chheng](cindychheng@csu.fullerton.edu):cindychheng@csu.fullerton.edu
+- [Daniel Le](phule4108@csu.fullerton.edu):phule4108@csu.fullerton.edu
+- [Jared](https://github.com/member5username)
 
 
 
@@ -81,7 +81,12 @@ To get started with this project, follow these steps:
 2. Run the server script:
 
 ```shell
-python server.py
+python3 ftp_server.py <port number>
+```
+
+Example:
+```shell
+python3 ftp_server.py 1200
 ```
 
 **Client:**
@@ -90,8 +95,17 @@ python server.py
 2. Run the client script:
 
 ```shell
-python client.py
+python3 ftp_client.py <server ip> <server port>
 ```
+
+Example:
+```shell
+python3 ftp_client.py 127.0.0.1 1200
+```
+
+## Example
+Example of Code Running Each Command
+![alt text](screenshot.png)
 
 ## Contributing
 
