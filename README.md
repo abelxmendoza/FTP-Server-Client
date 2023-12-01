@@ -17,7 +17,7 @@ This project is a collaborative effort by a group of students enrolled in the Co
 - [Daniel Quezada](daquezada19@csu.fullerton.edu):daquezada19@csu.fullerton.edu
 - [Cindy Chheng](cindychheng@csu.fullerton.edu):cindychheng@csu.fullerton.edu
 - [Daniel Le](phule4108@csu.fullerton.edu):phule4108@csu.fullerton.edu
-- [Jared](https://github.com/member5username)
+- [Jeric](https://github.com/member5username)
 
 
 
